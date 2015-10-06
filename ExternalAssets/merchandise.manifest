@@ -1,0 +1,51 @@
+ManifestFileVersion: 0
+CRC: 1808448276
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: df874e745a6f9b8877723173093c50d0
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: d1fe81db33f453ddf508900e34f09da1
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3e4adb514cdee4a4283a7fdee44c977e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5bf9f296daa214dd9a16882fea7f0c0e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 20d751f61b8e7400ebdd8c67bad7c737, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/VisualizationFramework/AssetBundles/Merchandise/Polo_Prefab.prefab
+- Assets/VisualizationFramework/AssetBundles/Merchandise/Polo_Preview.png
+- Assets/VisualizationFramework/AssetBundles/Merchandise/Sweater_Preview.png
+- Assets/VisualizationFramework/AssetBundles/Merchandise/Hoodie_Preview.png
+- Assets/VisualizationFramework/AssetBundles/Merchandise/Tank_Prefab.prefab
+- Assets/VisualizationFramework/AssetBundles/Merchandise/Hoodie_Prefab.prefab
+- Assets/VisualizationFramework/AssetBundles/Merchandise/Sweater_Prefab.prefab
+- Assets/VisualizationFramework/AssetBundles/Merchandise/Tank_Preview.png
+Dependencies: []
