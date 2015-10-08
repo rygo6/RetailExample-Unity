@@ -17,6 +17,7 @@ static public class IntExtension
 		if (value < 0)
 		{
 			value *= -1;
+			value--;
 		}
 		return value;
 	}

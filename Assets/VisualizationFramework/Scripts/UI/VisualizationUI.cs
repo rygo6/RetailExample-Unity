@@ -165,12 +165,10 @@ namespace EC.Visualization
 			Item item = InstantiateSelectedItem(data);
 		
 			item.Highlight();
-		
-			int pointerId = data.pointerId.NegativeToZero();
-//			InputSingleton.Instance.InputReset[pointerId] = 1;		
-//			InputSingleton.Instance.InputResetTransform[pointerId] = item.transform;	
-		
-			UnselectSelectedItem();		
+
+			UnselectSelectedItem();	
+
+			Switch.SwitchGameObject(item.gameObject, data);
 		}
 
 		public Item InstantiateSelectedItem(PointerEventData data)

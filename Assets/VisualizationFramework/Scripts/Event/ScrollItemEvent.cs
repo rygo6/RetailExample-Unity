@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System.Collections;
 
@@ -26,21 +27,16 @@ namespace EC.Visualization
 
 		public void OnPointerDown(PointerEventData data)
 		{
-//			Orbit.Instance.InputNoOrbit[data.pointerId.NoNegative()] = true;
 			_inputMoved = Vector2.zero;
 		}
 	
 		public void OnPointerUp(PointerEventData data)
 		{
-			if (!_itemDragOut)
-			{
-//				Orbit.Instance.InputNoOrbit[data.pointerId.NoNegative()] = false;					  
-			}	
+
 		}
 	
 		public void OnPointerClick(PointerEventData data)
 		{
-//			Orbit.Instance.InputNoOrbit[data.pointerId.NoNegative()] = false;		
 			_parentPlannerUI.ItemButtonClick(ItemArrayIndex);
 		}
 		
