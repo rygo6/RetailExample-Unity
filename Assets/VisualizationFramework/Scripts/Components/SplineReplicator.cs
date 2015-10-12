@@ -58,7 +58,7 @@ namespace EC.Visualization
 
 		public float DisctanceBetweenStartEnd()
 		{
-			return Vector3.Distance(_startPoint.position, _endPoint.position);
+			return Vector3.Distance(_targetStartPoint.position, _targetEndPoint.position);
 		}
 	
 		public void SetStartEndPoint(Vector3 overallRangeMin, Vector3 overallRangeMax, float startRatio, float endRatio)

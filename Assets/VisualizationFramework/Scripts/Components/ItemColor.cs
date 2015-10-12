@@ -6,27 +6,13 @@ using UnityEngine.EventSystems;
 namespace EC.Visualization
 {
 	public class ItemColor : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
-	{
-		public Item item
-		{ 
-			get
-			{ 
-				if (_item == null)
-				{
-					_item = GetComponent<Item>();
-				}
-				return _item; 
-			} 
-		}
-		private Item _item;
-	
-		private Texture initialBlendTexture { get { return _initialBlendTexture; } set { _initialBlendTexture = value; } }
+	{	
 		private Texture _initialBlendTexture;
 	
 		public void OnDrop(PointerEventData data)
 		{
 			#if LOG		
-		Debug.Log( "OnDrop " + this.name );	
+			Debug.Log( "OnDrop " + this.name );	
 			#endif
 		
 			ItemUtility.StateSwitch(data, GetComponent<Item>().State,
@@ -54,7 +40,7 @@ namespace EC.Visualization
 		public void OnPointerExit(PointerEventData data)
 		{
 			#if LOG		
-		Debug.Log( "OnPointerExit " + this.name );	
+			Debug.Log( "OnPointerExit " + this.name );	
 			#endif	
 		
 			ItemUtility.StateSwitch(data, GetComponent<Item>().State,
@@ -70,7 +56,7 @@ namespace EC.Visualization
 		private void OnPointerExitAttached(PointerEventData data)
 		{
 			#if LOG		
-		Debug.Log( "OnPointerExitAttached " + this.name );	
+			Debug.Log( "OnPointerExitAttached " + this.name );	
 			#endif		
 		
 			if (data.pointerPress != null)
@@ -78,7 +64,7 @@ namespace EC.Visualization
 				Item dragItem = data.pointerPress.GetComponent<Item>();
 				if (dragItem != null && dragItem.HasTag("Color"))
 				{	
-					item.SetBlendMaterial(initialBlendTexture);
+					GetComponent<Item>().SetBlendMaterial(_initialBlendTexture);
 				}
 			}
 		}
@@ -86,7 +72,7 @@ namespace EC.Visualization
 		public void OnPointerEnter(PointerEventData data)
 		{
 			#if LOG		
-		Debug.Log( "OnPointerEnter " + this.name );	
+			Debug.Log( "OnPointerEnter " + this.name );	
 			#endif	
 		
 			ItemUtility.StateSwitch(data, GetComponent<Item>().State,
@@ -102,7 +88,7 @@ namespace EC.Visualization
 		private void OnPointerEnterAttached(PointerEventData data)
 		{
 			#if LOG		
-		Debug.Log( "OnPointerEnterAttached " + this.name );	
+			Debug.Log( "OnPointerEnterAttached " + this.name );	
 			#endif	
 		
 			if (data.pointerPress != null)
@@ -110,7 +96,8 @@ namespace EC.Visualization
 				Item dragItem = data.pointerPress.GetComponent<Item>();
 				if (dragItem != null && dragItem.HasTag("Color"))
 				{	
-					initialBlendTexture = item.BlendMaterialArray[0].GetTexture("_Blend");
+					Item item = GetComponent<Item>();
+					_initialBlendTexture = item.BlendMaterialArray[0].GetTexture("_Blend");
 					item.SetBlendMaterial(dragItem.MaterialArray[0].mainTexture);
 				}
 			}

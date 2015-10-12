@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2473928576
+CRC: 3400453016
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 4bac8b84b7ebefb5b2fd1c99b3815d93
+    Hash: 2f0efa383ec4b28f1a36f62652961d31
   TypeTreeHash:
     serializedVersion: 2
     Hash: 8131b36d840de2d9ef2f19ff84336a6a
@@ -36,44 +36,24 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
-- Assets/VisualizationFramework/AssetBundles/Colors/PURPLEBRIGHT_Preview.png
-- Assets/VisualizationFramework/AssetBundles/Colors/BEIGE_Preview.png
+- Assets/VisualizationFramework/AssetBundles/Colors/PURPLE_Preview.png
 - Assets/VisualizationFramework/AssetBundles/Colors/BROWN_Preview.png
-- Assets/VisualizationFramework/AssetBundles/Colors/SILVER_Preview.png
-- Assets/VisualizationFramework/AssetBundles/Colors/MOREORANGE_Preview.png
-- Assets/VisualizationFramework/AssetBundles/Colors/MAROON_Preview.png
-- Assets/VisualizationFramework/AssetBundles/Colors/DARKGREEN_Preview.png
-- Assets/VisualizationFramework/AssetBundles/Colors/BRIGHTGREEN_Prefab.prefab
 - Assets/VisualizationFramework/AssetBundles/Colors/BROWN_Prefab.prefab
 - Assets/VisualizationFramework/AssetBundles/Colors/ORANGE_Preview.png
 - Assets/VisualizationFramework/AssetBundles/Colors/GRAY_Prefab.prefab
-- Assets/VisualizationFramework/AssetBundles/Colors/MOREORANGE_Prefab.prefab
-- Assets/VisualizationFramework/AssetBundles/Colors/DARKGREEN_Prefab.prefab
 - Assets/VisualizationFramework/AssetBundles/Colors/BLACK_Preview.png
 - Assets/VisualizationFramework/AssetBundles/Colors/ORANGE_Prefab.prefab
 - Assets/VisualizationFramework/AssetBundles/Colors/GREEN_Prefab.prefab
 - Assets/VisualizationFramework/AssetBundles/Colors/RED_Preview.png
 - Assets/VisualizationFramework/AssetBundles/Colors/RED_Prefab.prefab
 - Assets/VisualizationFramework/AssetBundles/Colors/WHITE_Preview.png
-- Assets/VisualizationFramework/AssetBundles/Colors/YELLOWGREEN_Prefab.prefab
-- Assets/VisualizationFramework/AssetBundles/Colors/DARKERGRAY_Prefab.prefab
 - Assets/VisualizationFramework/AssetBundles/Colors/GREEN_Preview.png
-- Assets/VisualizationFramework/AssetBundles/Colors/BEIGE_Prefab.prefab
 - Assets/VisualizationFramework/AssetBundles/Colors/WHITE_Prefab.prefab
-- Assets/VisualizationFramework/AssetBundles/Colors/DEEPBLUE_Prefab.prefab
 - Assets/VisualizationFramework/AssetBundles/Colors/YELLOW_Preview.png
 - Assets/VisualizationFramework/AssetBundles/Colors/BLUE_Prefab.prefab
 - Assets/VisualizationFramework/AssetBundles/Colors/GRAY_Preview.png
-- Assets/VisualizationFramework/AssetBundles/Colors/BRIGHTGREEN_Preview.png
-- Assets/VisualizationFramework/AssetBundles/Colors/PURPLEBRIGHT_Prefab.prefab
-- Assets/VisualizationFramework/AssetBundles/Colors/BLUE_Preview.png
-- Assets/VisualizationFramework/AssetBundles/Colors/MAROON_Prefab.prefab
 - Assets/VisualizationFramework/AssetBundles/Colors/PURPLE_Prefab.prefab
-- Assets/VisualizationFramework/AssetBundles/Colors/SILVER_Prefab.prefab
-- Assets/VisualizationFramework/AssetBundles/Colors/DEEPBLUE_Preview.png
-- Assets/VisualizationFramework/AssetBundles/Colors/PURPLE_Preview.png
+- Assets/VisualizationFramework/AssetBundles/Colors/BLUE_Preview.png
 - Assets/VisualizationFramework/AssetBundles/Colors/YELLOW_Prefab.prefab
-- Assets/VisualizationFramework/AssetBundles/Colors/DARKERGRAY_Preview.png
-- Assets/VisualizationFramework/AssetBundles/Colors/YELLOWGREEN_Preview.png
 - Assets/VisualizationFramework/AssetBundles/Colors/BLACK_Prefab.prefab
 Dependencies: []

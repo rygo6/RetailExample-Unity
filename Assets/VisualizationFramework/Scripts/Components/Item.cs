@@ -238,28 +238,41 @@ namespace EC.Visualization
 
 			VisualizationUI plannerUI = FindObjectOfType<VisualizationUI>();
 			Item instantiatedItem = plannerUI.InstantiateSelectedItem(data);
-			ItemDrag instantiatedDragItemMod = instantiatedItem.GetComponent<ItemDrag>();
-			ItemDrop dropItem = GetComponent<ItemDrop>();
-			instantiatedDragItemMod.ThisEnteredDropItem = dropItem;
-			instantiatedDragItemMod.ParentItemDrop = dropItem;
+			ItemDrag instantiatedItemDrag = instantiatedItem.GetComponent<ItemDrag>();
+			ItemDrop itemDrop = GetComponent<ItemDrop>();
+			if (itemDrop != null)
+			{
+				instantiatedItemDrag.ThisEnteredDropItem = itemDrop;
+				instantiatedItemDrag.ParentItemDrop = itemDrop;
 		
-			ItemSnap itemSnap = instantiatedDragItemMod.NearestItemSnap(data);
-			instantiatedDragItemMod.ParentItemSnap = itemSnap;
-			Ray ray = itemSnap.Snap(instantiatedItem, data);
-			instantiatedDragItemMod.SetTargetPositionRotation(ray.origin, ray.direction); 		
-			//set to outline and normal to get rid of quirk where instantied shader isn't immediately properly lit
-			instantiatedItem.SetShaderOutline(ItemSingleton.Instance.IinstantiateOutlineColor);
-			instantiatedItem.SetShaderNormal();
-			instantiatedItem.State = ItemState.NoInstantiate;
+				ItemSnap itemSnap = instantiatedItemDrag.NearestItemSnap(data);
+				instantiatedItemDrag.ParentItemSnap = itemSnap;
+				Ray ray = itemSnap.Snap(instantiatedItem, data);
+				instantiatedItemDrag.SetTargetPositionRotation(ray.origin, ray.direction); 		
+				//set to outline and normal to get rid of quirk where instantied shader isn't immediately properly lit
+				instantiatedItem.SetShaderOutline(ItemSingleton.Instance.IinstantiateOutlineColor);
+				instantiatedItem.SetShaderNormal();
+				instantiatedItem.State = ItemState.NoInstantiate;
 
-			if (dropItem.CanAttach(instantiatedItem.TagArray))
-			{
-				SetShaderOutline(ItemSingleton.Instance.IinstantiateOutlineColor);
+				//TODO this should always be able to attach, why are we checking?
+				if (itemDrop.CanAttach(instantiatedItem.TagArray))
+				{
+					SetShaderOutline(ItemSingleton.Instance.IinstantiateOutlineColor);
+				}
+				else
+				{
+					SetShaderNormal();
+					State = ItemState.NoInstantiate;
+				}
 			}
-			else
+			ItemColor itemColor = GetComponent<ItemColor>();
+			if (itemColor != null)
 			{
+				Item item = GetComponent<Item>();
+				item.SetBlendMaterial(instantiatedItem.MaterialArray[0].mainTexture);
 				SetShaderNormal();
 				State = ItemState.NoInstantiate;
+				StartCoroutine(instantiatedItem.DestroyItemCoroutine());
 			}
 		}
 	                        	   
@@ -337,7 +350,7 @@ namespace EC.Visualization
 			for (int i = 0; i < BlendMaterialArray.Length; ++i)
 			{
 				BlendMaterialArray[i].SetTexture("_Blend", texture);
-				//this is a total hack figure out why
+				//for some reason shader needs to be reapplied some times to get texture to update
 				BlendMaterialArray[i].shader = Shader.Find("Mobile/VertexLit (Only Directional Lights) Blend");
 			}	
 		}

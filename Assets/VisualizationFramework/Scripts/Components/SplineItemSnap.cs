@@ -110,7 +110,7 @@ namespace EC.Visualization
 			return new Ray(from, direction);		
 		}
 	
-		public void InsertReplicator(SplineReplicator replicator, Vector3 inserPoint)
+		private void InsertReplicator(SplineReplicator replicator, Vector3 inserPoint)
 		{
 			Vector3 from = _pointArray[0].transform.position;
 			Vector3 to = _pointArray[1].transform.position;
@@ -164,7 +164,7 @@ namespace EC.Visualization
 			}		
 		}
 	
-		public void SetColliderSize()
+		private void SetColliderSize()
 		{
 			for (int d = 0; d < SplineReplicatorList.Count; ++d)
 			{	
@@ -180,7 +180,7 @@ namespace EC.Visualization
 		/// <summary>
 		/// Sets the ratios on DuplicateDataList on assumption of equal spacing
 		/// </summary>
-		public void SetStartEndPoint()
+		private void SetStartEndPoint()
 		{
 			float priorRatio = 0f;
 			float ratioSplit = 1f / (float)SplineReplicatorList.Count;

@@ -107,27 +107,30 @@ namespace EC.Visualization
 			
 				_selectedItem = _currentlyLoadedItemArray[itemArrayIndex];	
 	       	        
-				System.Action<Item> trueAction = delegate( Item item)
+				System.Action<Item> trueAction = delegate(Item item)
 				{
 					item.SetShaderOutline(ItemSingleton.Instance.IinstantiateOutlineColor);
 					item.State = ItemState.Instantiate;
 				};
-				System.Action<Item> falseAction = delegate( Item item)
+				System.Action<Item> falseAction = delegate(Item item)
 				{
 					item.SetShaderNormal();			
 					item.State = ItemState.NoInstantiate;
 				};		
-				System.Func<Item,bool> filterAction = delegate( Item item)
+				System.Func<Item,bool> filterAction = delegate(Item item)
 				{		
-					ItemDrop dropItemMod = item.GetComponent<ItemDrop>();
-					if (dropItemMod != null)
+					ItemDrop itemDrop = item.GetComponent<ItemDrop>();
+					ItemColor itemColor = item.GetComponent<ItemColor>();
+					const string colorTag = "Color";
+					if (itemDrop != null)
 					{
-						return dropItemMod.CanAttach(_selectedItem.TagArray);
+						return itemDrop.CanAttach(_selectedItem.TagArray);
 					}
-					else
+					if (itemColor != null && _selectedItem.HasTag(colorTag))
 					{
-						return false;
+						return true;
 					}
+					return false;
 				};					
 				
 				int trueCount = ItemSingleton.Instance.CallDelegateTagFilter(filterAction, trueAction, falseAction);	
@@ -266,7 +269,7 @@ namespace EC.Visualization
 					itemReference.PrefabName = name.Replace("_preview", "_prefab");
 					itemReference.PreviewName = name;
 					GameObject asset = (GameObject)assetBundle.LoadAsset(itemReference.PrefabName);
-					Debug.Log (asset);
+					Debug.Log(asset);
 					Item item = asset.GetComponent<Item>();
 					itemReference.TagArray = item.TagArray;					
 					itemReference.AssetBundle = assetBundle;

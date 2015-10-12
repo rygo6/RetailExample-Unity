@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1504192712
+CRC: 185752944
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 45447ebf6659edfa0bdf5df390ee6a98
+    Hash: 1e57f52c0fcf53533681dd6a37ad099f
   TypeTreeHash:
     serializedVersion: 2
     Hash: 6e351ff4d34ee6d2b8a32aca8c186f09
@@ -47,6 +47,7 @@ Assets:
 - Assets/VisualizationFramework/AssetBundles/Attachments/Hangbar2_Preview.png
 - Assets/VisualizationFramework/AssetBundles/Attachments/2Faceout4_Prefab.prefab
 - Assets/VisualizationFramework/AssetBundles/Attachments/2Faceout4_Preview.png
+- Assets/VisualizationFramework/AssetBundles/Attachments/1Faceout2_Preview.png
 - Assets/VisualizationFramework/AssetBundles/Attachments/Hangbar2_Prefab.prefab
 - Assets/VisualizationFramework/AssetBundles/Attachments/Hangbar4_Prefab.prefab
 - Assets/VisualizationFramework/AssetBundles/Attachments/1Faceout2_Prefab.prefab
