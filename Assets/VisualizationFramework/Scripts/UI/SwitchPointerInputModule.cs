@@ -8,7 +8,7 @@ namespace UnityEngine.EventSystems
 	{
 		private readonly MouseState m_MouseState = new MouseState();
 
-        protected PointerEventData GetTouchPointerEventData(Touch input, out bool pressed, out bool released)
+        protected new PointerEventData GetTouchPointerEventData(Touch input, out bool pressed, out bool released)
         {
             PointerEventData pointerData;
             var created = GetPointerData(input.fingerId, out pointerData, true);
@@ -71,7 +71,7 @@ namespace UnityEngine.EventSystems
             return pointerData;
         }
 
-        protected virtual MouseState GetMousePointerEventData(int id)
+        protected override MouseState GetMousePointerEventData(int id)
         {
             // Populate the left button...
             PointerEventData leftData;

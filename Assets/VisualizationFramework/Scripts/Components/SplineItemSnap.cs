@@ -15,7 +15,7 @@ namespace EC.Visualization
 		[SerializeField]
 		private int _maxItemCount = 8;
 
-		private void Awake()
+		protected override void Awake()
 		{
 			_pointArray = GetComponentsInChildren<Point>();
 
@@ -33,7 +33,7 @@ namespace EC.Visualization
 		public override Vector3 NearestPoint(PointerEventData data)
 		{
 			Ray lineRay = AttachPointRay();
-			Vector3 linePoint = Math3D.ProjectPointOnLine(lineRay.origin, lineRay.direction, data.worldPosition);			
+			Vector3 linePoint = Math3D.ProjectPointOnLine(lineRay.origin, lineRay.direction, data.pointerCurrentRaycast.worldPosition);			
 			return linePoint;
 		}
 	

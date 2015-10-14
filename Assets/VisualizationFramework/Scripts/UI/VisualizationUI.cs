@@ -12,6 +12,8 @@ namespace EC.Visualization
 	{
 		private readonly List<GameObject> ItemBarHorizontalGroupItemList = new List<GameObject>();
 
+		private ItemRoot Root { get; set; }
+
 		private Catcher _catcher;
 
 		[SerializeField]
@@ -83,6 +85,8 @@ namespace EC.Visualization
 
 		private void Awake()
 		{
+			Root = FindObjectOfType<ItemRoot>();
+
 			_catcher = GameObject.FindObjectOfType<Catcher>();
 		}
 
@@ -90,7 +94,7 @@ namespace EC.Visualization
 		{
 			if (_selectedItemIndex != -1)
 			{
-				ItemSingleton.Instance.SetAllOutlineNormalAttach(); 		
+				Root.SetAllOutlineNormalAttach(); 		
 				_selectedItem = null;
 				ItemBarHorizontalGroupItemList[_selectedItemIndex].GetComponent<Transform>().FindChild("ItemBarItemHighlight").GetComponent<Image>().enabled = false;
 				_selectedItemIndex = -1;
@@ -109,7 +113,7 @@ namespace EC.Visualization
 	       	        
 				System.Action<Item> trueAction = delegate(Item item)
 				{
-					item.SetShaderOutline(ItemSingleton.Instance.IinstantiateOutlineColor);
+					item.SetShaderOutline(Persistent.GetComponent<ItemSettings>().InstantiateOutlineColor);
 					item.State = ItemState.Instantiate;
 				};
 				System.Action<Item> falseAction = delegate(Item item)
@@ -133,12 +137,12 @@ namespace EC.Visualization
 					return false;
 				};					
 				
-				int trueCount = ItemSingleton.Instance.CallDelegateTagFilter(filterAction, trueAction, falseAction);	
+				int trueCount = Root.CallDelegateTagFilter(filterAction, trueAction, falseAction);	
 			
 				if (trueCount == 0)
 				{
 					_selectedItem = null;
-					ItemSingleton.Instance.SetAllOutlineNormalAttach();			
+					Root.SetAllOutlineNormalAttach();			
 					_selectedItemIndex = -1;
 				}
 				else
@@ -160,7 +164,7 @@ namespace EC.Visualization
 
 		public void SpawnItemFromMenuDrag(PointerEventData data, int itemArrayIndex)
 		{
-			ItemSingleton.Instance.UnHighlightAll();
+			Root.UnHighlightAll();
 	
 			_selectedItemIndex = itemArrayIndex;
 			_selectedItem = _currentlyLoadedItemArray[itemArrayIndex];	
@@ -256,7 +260,7 @@ namespace EC.Visualization
 		
 		public void PopulateItemArrayFromBundle(out ItemReference[] itemArray, string bundlePath)
 		{
-			AssetBundle assetBundle = BundleSingleton.Instance.LoadBundle(bundlePath);
+			AssetBundle assetBundle = Persistent.GetComponent<BundleStore>().LoadBundle(bundlePath);
 			List<ItemReference> itemList = new List<ItemReference>();
 			string[] assetNames = assetBundle.GetAllAssetNames();
 			for (int i = 0; i < assetNames.Length; ++i)
@@ -269,7 +273,7 @@ namespace EC.Visualization
 					itemReference.PrefabName = name.Replace("_preview", "_prefab");
 					itemReference.PreviewName = name;
 					GameObject asset = (GameObject)assetBundle.LoadAsset(itemReference.PrefabName);
-					Debug.Log(asset);
+//					Debug.Log(asset);
 					Item item = asset.GetComponent<Item>();
 					itemReference.TagArray = item.TagArray;					
 					itemReference.AssetBundle = assetBundle;

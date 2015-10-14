@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
 namespace EC.Visualization
@@ -72,6 +73,17 @@ namespace EC.Visualization
 				}
 			}
 			return false;
+		}
+
+		static public string TickToString()
+		{
+			long ticks = System.DateTime.Now.Ticks;
+			byte[] bytes = System.BitConverter.GetBytes(ticks);
+			string id = System.Convert.ToBase64String(bytes)
+				.Replace('+', '_')
+				.Replace('/', '-')
+				.TrimEnd('=');	
+			return id;
 		}
 	}
 }

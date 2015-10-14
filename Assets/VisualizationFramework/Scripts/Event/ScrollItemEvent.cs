@@ -41,8 +41,7 @@ namespace EC.Visualization
 		}
 		
 		public void OnBeginDrag(PointerEventData data)
-		{
-			_itemDragOut = false;		
+		{	
 			_scrollRect.OnBeginDrag(data);
 		}
 
@@ -56,12 +55,10 @@ namespace EC.Visualization
 			if (data.position.y < _fourCornersArray[0].y && _inputMoved.x < _dragThreshold)
 			{
 				_parentPlannerUI.SpawnItemFromMenuDrag(data, ItemArrayIndex);
-				_itemDragOut = true;
 			}
 		
 			_scrollRect.OnDrag(data);
 		}
-		private bool _itemDragOut;
 		private float _dragThreshold = RetinaUtility.RFloat(50f);
 		private Vector3[] _fourCornersArray = new Vector3[4];
 		private Vector2 _inputMoved;

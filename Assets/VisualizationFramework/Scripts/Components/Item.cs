@@ -16,8 +16,8 @@ namespace EC.Visualization
 			{ 
 				if (string.IsNullOrEmpty(_uniqueTick))
 				{
-					_uniqueTick = ItemSingleton.Instance.TickToString();
-					ItemSingleton.Instance.UniqueTickDictionary.Add(_uniqueTick, this);	
+					_uniqueTick = ItemUtility.TickToString();
+					Root.UniqueTickDictionary.Add(_uniqueTick, this);	
 				}	
 				return _uniqueTick; 
 			} 
@@ -25,14 +25,18 @@ namespace EC.Visualization
 			{
 				if (!string.IsNullOrEmpty(_uniqueTick))
 				{
-					ItemSingleton.Instance.UniqueTickDictionary.Remove(_uniqueTick);
+					Root.UniqueTickDictionary.Remove(_uniqueTick);
 				}
 				_uniqueTick = value;
-				ItemSingleton.Instance.UniqueTickDictionary.Add(_uniqueTick, this);
+				Root.UniqueTickDictionary.Add(_uniqueTick, this);
 			}	
 		}
 		private string _uniqueTick;
     
+		public ItemSettings Settings { get; private set; }
+
+		public ItemRoot Root { get; private set; }
+
 		[SerializeField]
 		private bool _disableOutline;
     
@@ -78,6 +82,10 @@ namespace EC.Visualization
 
 		private void Awake()
 		{
+			//TODO make items be generator through something else and automatically hooked up to this
+			Root = FindObjectOfType<ItemRoot>();
+			Settings = Persistent.GetComponent<ItemSettings>();
+
 			MeshRendererArray = this.GetComponentsInChildren<MeshRenderer>();
 
 			MeshArray = new Mesh[MeshRendererArray.Length];
@@ -157,7 +165,7 @@ namespace EC.Visualization
 			Debug.Log( "OnPointerDownAttached " + this.name );
 			#endif
 		
-			SetShaderOutline(ItemSingleton.Instance.DownHighlightItemColor);
+			SetShaderOutline(Settings.DownHighlightItemColor);
 		}
 	
 		private void OnPointerDownAttachedHighlighted(PointerEventData data)
@@ -167,7 +175,7 @@ namespace EC.Visualization
 			#endif
 		
 			SetLayerRecursive(2);
-			SetShaderOutline(ItemSingleton.Instance.DownHighlightItemColor);
+			SetShaderOutline(Settings.DownHighlightItemColor);
 		}
     
 		private void OnPointerDownInstantiate(PointerEventData data)
@@ -176,7 +184,7 @@ namespace EC.Visualization
 			Debug.Log( "OnPointerDownAttachedHighlighted " + this.name );
 			#endif
 		
-			SetShaderOutline(ItemSingleton.Instance.DropOutlineColor);
+			SetShaderOutline(Settings.DropOutlineColor);
 		}
 	
 		public void OnPointerUp(PointerEventData data)
@@ -203,7 +211,7 @@ namespace EC.Visualization
 		
 			if (data.pointerCurrentRaycast.gameObject == data.pointerPressRaycast.gameObject)
 			{
-				ItemSingleton.Instance.UnHighlightAll();
+				Root.UnHighlightAll();
 				Highlight();
 			}
 			else
@@ -219,7 +227,7 @@ namespace EC.Visualization
 			#endif
 		
 			SetLayerRecursive(8);
-			ItemSingleton.Instance.UnHighlightAll();		
+			Root.UnHighlightAll();		
 		}
     
 		private void OnPointerUpDragging(PointerEventData data)
@@ -250,14 +258,14 @@ namespace EC.Visualization
 				Ray ray = itemSnap.Snap(instantiatedItem, data);
 				instantiatedItemDrag.SetTargetPositionRotation(ray.origin, ray.direction); 		
 				//set to outline and normal to get rid of quirk where instantied shader isn't immediately properly lit
-				instantiatedItem.SetShaderOutline(ItemSingleton.Instance.IinstantiateOutlineColor);
+				instantiatedItem.SetShaderOutline(Settings.InstantiateOutlineColor);
 				instantiatedItem.SetShaderNormal();
 				instantiatedItem.State = ItemState.NoInstantiate;
 
 				//TODO this should always be able to attach, why are we checking?
 				if (itemDrop.CanAttach(instantiatedItem.TagArray))
 				{
-					SetShaderOutline(ItemSingleton.Instance.IinstantiateOutlineColor);
+					SetShaderOutline(Settings.InstantiateOutlineColor);
 				}
 				else
 				{
@@ -301,13 +309,13 @@ namespace EC.Visualization
 	
 		private void RemoveUniqueTickRecursive(Item item)
 		{
-			ItemSingleton.Instance.UniqueTickDictionary.Remove(item.UniqueTick);
+			Root.UniqueTickDictionary.Remove(item.UniqueTick);
 			ItemDrop item_Drop = item.GetComponent<ItemDrop>();
 			if (item_Drop != null)
 			{
 				for (int i = 0; i < item_Drop.ItemSnapArray.Length; ++i)
 				{
-					ItemSingleton.Instance.UniqueTickDictionary.Remove(item_Drop.ItemSnapArray[i].UniqueTick);			
+					Root.UniqueTickDictionary.Remove(item_Drop.ItemSnapArray[i].UniqueTick);			
 				}
 			}	
 			ItemDrop itemDrop = item.GetComponent<ItemDrop>();//TODO WHY IS THIS TWICE??
@@ -324,13 +332,13 @@ namespace EC.Visualization
 		{
 			System.Action action = delegate()
 			{
-				ItemSingleton.Instance.UnHighlightAll();
+				Root.UnHighlightAll();
 			};       	
 			_catcher.EmptyClickAction = action;
 		
-			SetShaderOutline(ItemSingleton.Instance.HighlightItemColor);
+			SetShaderOutline(Settings.HighlightItemColor);
 			State = ItemState.AttachedHighlighted;
-			ItemSingleton.Instance.ItemRaycastHighlightList.Add(this);
+			Root.ItemHighlightList.Add(this);
 		}
 	
 		public void UnHighlight()
@@ -342,7 +350,7 @@ namespace EC.Visualization
 			}
 			SetShaderNormal();
 			State = ItemState.Attached;
-			ItemSingleton.Instance.ItemRaycastHighlightList.Remove(this);
+			Root.ItemHighlightList.Remove(this);
 		}
 		
 		public void SetBlendMaterial(Texture texture)
@@ -439,14 +447,14 @@ namespace EC.Visualization
 				{
 					BlendMaterialArray[i].shader = Shader.Find("Toon/Vertex Lighted Blend Outline");
 					BlendMaterialArray[i].color = Color.white;
-					BlendMaterialArray[i].SetFloat("_Outline", ItemSingleton.Instance.OutlineSize);
+					BlendMaterialArray[i].SetFloat("_Outline", Settings.OutlineSize);
 					BlendMaterialArray[i].SetColor("_OutlineColor", color);
 				}
 				for (int i = 0; i < MaterialArray.Length; ++i)
 				{
 					MaterialArray[i].shader = Shader.Find("Toon/Vertex Lighted Blend Outline");
 					MaterialArray[i].color = Color.white;
-					MaterialArray[i].SetFloat("_Outline", ItemSingleton.Instance.OutlineSize);
+					MaterialArray[i].SetFloat("_Outline", Settings.OutlineSize);
 					MaterialArray[i].SetColor("_OutlineColor", color);
 				}
 			}
@@ -478,5 +486,15 @@ namespace EC.Visualization
 		}
 		private bool _outlineNormal = true;
 		private Color _currentOutlineColor;
+
+		public void AddToHoldList()
+		{
+			Root.ItemHoldList.Add(this);
+		}
+
+		public void RemoveFromHoldList()
+		{
+			Root.ItemHoldList.Remove(this);
+		}
 	}
 }

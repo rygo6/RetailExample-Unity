@@ -284,13 +284,13 @@ namespace EC.Visualization
 	
 		private void OnBeginDragAttachedHighlighted(PointerEventData data)
 		{
-			GetComponent<Item>().SetShaderOutline(ItemSingleton.Instance.HighlightItemColor);			
+			GetComponent<Item>().SetShaderOutline(Persistent.GetComponent<ItemSettings>().HighlightItemColor);			
 			SwitchAttachedToDragging(data);	
 		}
 	
 		private void OnBeginDragInstantiate(PointerEventData data)
 		{
-			GetComponent<Item>().SetShaderOutline(ItemSingleton.Instance.IinstantiateOutlineColor);
+			GetComponent<Item>().SetShaderOutline(Persistent.GetComponent<ItemSettings>().InstantiateOutlineColor);
 		}
 	
 		private void OnBeginDragNoInstantiate(PointerEventData data)
@@ -302,9 +302,10 @@ namespace EC.Visualization
 		{
 			AccessoryRendererState = false;
 			ParentItemDrop = null;
-			GetComponent<Item>().ResetColliderSize();
-			ItemSingleton.Instance.ItemRaycastHoldList.Add(GetComponent<Item>());
-			GetComponent<Item>().State = ItemState.Dragging;
+			Item item = GetComponent<Item>();
+			item.ResetColliderSize();
+			item.AddToHoldList();
+			item.State = ItemState.Dragging;
 		
 			//This ensure that the item is still hovering over the item_Drop it was attached to
 			//otherwise it disattaches it, this is done because OnPointerExit will only get called on
@@ -386,7 +387,7 @@ namespace EC.Visualization
 			}
 			else
 			{
-				ItemSingleton.Instance.ItemRaycastHoldList.Remove(item);
+				item.RemoveFromHoldList();
 				AccessoryRendererState = true;
 				item.SetLayerRecursive(8);
 				item.State = ItemState.AttachedHighlighted;			

@@ -6,6 +6,22 @@ namespace EC
 {
 	static public class DirectoryUtility 
 	{
+		static public string AssetBundles()
+		{
+			switch ( Application.platform )
+			{
+			default:
+			case RuntimePlatform.OSXEditor:
+			case RuntimePlatform.WindowsEditor:	
+				return Application.dataPath + "/../AssetBundles/";			
+			case RuntimePlatform.OSXPlayer:
+			case RuntimePlatform.WindowsPlayer:
+			case RuntimePlatform.IPhonePlayer:		
+			case RuntimePlatform.LinuxPlayer:
+				return Application.dataPath + "/AssetBundles/";		
+			}	
+		}	
+
 		static public string ExternalAssets()
 		{
 			switch ( Application.platform )

@@ -15,8 +15,8 @@ namespace EC.Visualization
 			{ 
 				if (string.IsNullOrEmpty(_uniqueTick))
 				{
-					_uniqueTick = ItemSingleton.Instance.TickToString();
-					ItemSingleton.Instance.UniqueTickDictionary.Add(_uniqueTick, this);	
+					_uniqueTick = ItemUtility.TickToString();
+					Root.UniqueTickDictionary.Add(_uniqueTick, this);	
 				}	
 				return _uniqueTick; 
 			} 
@@ -24,21 +24,26 @@ namespace EC.Visualization
 			{
 				if (!string.IsNullOrEmpty(_uniqueTick))
 				{
-					ItemSingleton.Instance.UniqueTickDictionary.Remove(_uniqueTick);
+					Root.UniqueTickDictionary.Remove(_uniqueTick);
 				}
 				_uniqueTick = value;
-				ItemSingleton.Instance.UniqueTickDictionary.Add(_uniqueTick, this);
+				Root.UniqueTickDictionary.Add(_uniqueTick, this);
 			}	
 		}
 		private string _uniqueTick;
+
+		public ItemRoot Root { get; private set; }
 
 		public string[] ChildTagArray { get { return _childTagArray; } }
 		[Header("Enter a specific set of tags for this point. If no tags are entered it will inherit them from the parent item")]
 		[SerializeField]
 		private string[] _childTagArray;
 
-		protected void Awake()
+		protected virtual void Awake()
 		{
+			//TODO make automaticaly set by generator
+			Root = FindObjectOfType<ItemRoot>();
+
 			if (_childTagArray == null || _childTagArray.Length == 0)
 			{
 				_childTagArray = GetComponentInParent<Item>().ChildTagArray;

@@ -12,8 +12,8 @@ public class AssetBundleBuild
 	[MenuItem("Assets/Build All Bundles")]	
 	static public void BuildAllBundles () 
 	{
-		BuildAssetBundleOptions assetBundleOptions = BuildAssetBundleOptions.UncompressedAssetBundle | BuildAssetBundleOptions.DeterministicAssetBundle;
-		BuildPipeline.BuildAssetBundles( EC.DirectoryUtility.ExternalAssets(), assetBundleOptions, BuildTarget.iOS );
+		BuildAssetBundleOptions assetBundleOptions = BuildAssetBundleOptions.DeterministicAssetBundle;
+		BuildPipeline.BuildAssetBundles( EC.DirectoryUtility.AssetBundles(), assetBundleOptions, BuildTarget.WebGL );
 	}
 
 }

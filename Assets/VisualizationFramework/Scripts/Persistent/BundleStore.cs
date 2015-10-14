@@ -4,9 +4,14 @@ using System.Collections.Generic;
 
 namespace EC
 {
-	public class BundleSingleton : Singleton<BundleSingleton>
+	public class BundleStore : MonoBehaviour
 	{
+		[SerializeField]
+		private string _url;
+
 		private readonly List<AssetBundle> AssetBundleList = new List<AssetBundle>();
+
+		private readonly Dictionary<string, WWW> WWWDictionary = new Dictionary<string, WWW>();
 
 		private void Awake()
 		{
@@ -15,11 +20,23 @@ namespace EC
 				_currentLevelAssetBundle.Unload(false);
 				_currentLevelAssetBundle = null;
 			}	
+
+			StartCoroutine(LoadBundleWWW(DirectoryUtility.ExternalAssets() + "merchandise"));
+			StartCoroutine(LoadBundleWWW(DirectoryUtility.ExternalAssets() + "attachments"));
+			StartCoroutine(LoadBundleWWW(DirectoryUtility.ExternalAssets() + "fixtures"));
+			StartCoroutine(LoadBundleWWW(DirectoryUtility.ExternalAssets() + "colors"));
 		}
 	
 		public void OnDestroy()
 		{
 			UnloadAllBundles();
+		}
+
+		public WWW GetWWW(string name)
+		{
+			WWW getWWW;
+			WWWDictionary.TryGetValue(name, out getWWW);
+			return getWWW;
 		}
 
 		public AssetBundle GetBundle(string name)
@@ -34,6 +51,27 @@ namespace EC
 			return null;
 		}
 
+		public IEnumerator LoadBundleWWW(string path)
+		{
+			Debug.Log("Loading Bundle: " + path);
+			string name = System.IO.Path.GetFileNameWithoutExtension(path);
+			AssetBundle assetBundle = GetBundle(name);
+			WWW getWWW;
+			WWWDictionary.TryGetValue(name, out getWWW);
+			if (assetBundle == null && getWWW == null)
+			{
+				WWW www = WWW.LoadFromCacheOrDownload("file://" + path, 0);
+				WWWDictionary.Add(name, www);
+				yield return www;
+				www.assetBundle.name = name;
+				AssetBundleList.Add(www.assetBundle);
+			}
+			else
+			{
+				yield return null;
+			}
+		}
+
 		public AssetBundle LoadBundle(string path)
 		{
 			Debug.Log("Loading Bundle: " + path);
@@ -41,11 +79,8 @@ namespace EC
 			AssetBundle assetBundle = GetBundle(name);
 			if (assetBundle == null)
 			{
-				assetBundle = new AssetBundle();
-				assetBundle = AssetBundle.CreateFromFile(path);
-				assetBundle.name = name;
-				AssetBundleList.Add(assetBundle);
-				return assetBundle;
+				LoadBundleWWW(path);
+				return null;
 			}
 			else
 			{
@@ -69,7 +104,7 @@ namespace EC
 			_currentLevelAssetBundle = AssetBundle.CreateFromFile(path);
 			if (_currentLevelAssetBundle != null && Application.CanStreamedLevelBeLoaded(level))
 			{
-				BundleSingleton.Instance.UnloadAllBundles();
+				UnloadAllBundles();
 				Application.LoadLevel(level);	
 			}
 			else
