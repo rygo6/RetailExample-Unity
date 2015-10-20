@@ -84,7 +84,7 @@ namespace EC.Visualization
 		{
 			//TODO make items be generator through something else and automatically hooked up to this
 			Root = FindObjectOfType<ItemRoot>();
-			Settings = Persistent.GetComponent<ItemSettings>();
+			Settings = Persistent.Get<ItemSettings>();
 
 			MeshRendererArray = this.GetComponentsInChildren<MeshRenderer>();
 

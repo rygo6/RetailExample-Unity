@@ -11,7 +11,7 @@ namespace EC
 			DontDestroyOnLoad(gameObject);
 		}
 
-		static public T GetComponent<T>()
+		static public T Get<T>()
 		{
 			return Find().GetComponentInChildren<T>();
 		}

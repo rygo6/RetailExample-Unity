@@ -113,7 +113,7 @@ namespace EC.Visualization
 	       	        
 				System.Action<Item> trueAction = delegate(Item item)
 				{
-					item.SetShaderOutline(Persistent.GetComponent<ItemSettings>().InstantiateOutlineColor);
+					item.SetShaderOutline(Persistent.Get<ItemSettings>().InstantiateOutlineColor);
 					item.State = ItemState.Instantiate;
 				};
 				System.Action<Item> falseAction = delegate(Item item)
@@ -260,7 +260,7 @@ namespace EC.Visualization
 		
 		public void PopulateItemArrayFromBundle(out ItemReference[] itemArray, string bundlePath)
 		{
-			AssetBundle assetBundle = Persistent.GetComponent<BundleStore>().LoadBundle(bundlePath);
+			AssetBundle assetBundle = Persistent.Get<BundleStore>().LoadBundle(bundlePath);
 			List<ItemReference> itemList = new List<ItemReference>();
 			string[] assetNames = assetBundle.GetAllAssetNames();
 			for (int i = 0; i < assetNames.Length; ++i)

@@ -208,7 +208,7 @@ namespace EC.Visualization
 				if (item != null && CanAttach(item.TagArray) ||
 				   item != null && ContainsItem(item))
 				{	
-					GetComponent<Item>().SetShaderOutline(Persistent.GetComponent<ItemSettings>().DropOutlineColor);
+					GetComponent<Item>().SetShaderOutline(Persistent.Get<ItemSettings>().DropOutlineColor);
 					ItemDragEnteredThis = item.GetComponent<ItemDrag>();
 					ItemDragEnteredThis.AccessoryRendererState = true;						
 				}

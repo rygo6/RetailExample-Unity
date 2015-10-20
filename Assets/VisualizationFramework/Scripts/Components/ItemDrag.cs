@@ -284,13 +284,13 @@ namespace EC.Visualization
 	
 		private void OnBeginDragAttachedHighlighted(PointerEventData data)
 		{
-			GetComponent<Item>().SetShaderOutline(Persistent.GetComponent<ItemSettings>().HighlightItemColor);			
+			GetComponent<Item>().SetShaderOutline(Persistent.Get<ItemSettings>().HighlightItemColor);			
 			SwitchAttachedToDragging(data);	
 		}
 	
 		private void OnBeginDragInstantiate(PointerEventData data)
 		{
-			GetComponent<Item>().SetShaderOutline(Persistent.GetComponent<ItemSettings>().InstantiateOutlineColor);
+			GetComponent<Item>().SetShaderOutline(Persistent.Get<ItemSettings>().InstantiateOutlineColor);
 		}
 	
 		private void OnBeginDragNoInstantiate(PointerEventData data)
