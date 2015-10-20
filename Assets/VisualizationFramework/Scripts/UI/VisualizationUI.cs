@@ -37,7 +37,7 @@ namespace EC.Visualization
 			{
 				if (_productItemArray == null)
 				{
-					PopulateItemArrayFromBundle(out _productItemArray, DirectoryUtility.ExternalAssets() + "merchandise");
+					PopulateItemArrayFromBundle(out _productItemArray, "merchandise");
 				}
 				return _productItemArray;
 			}
@@ -50,7 +50,7 @@ namespace EC.Visualization
 			{
 				if (_attachmentsItemArray == null)
 				{
-					PopulateItemArrayFromBundle(out _attachmentsItemArray, DirectoryUtility.ExternalAssets() + "attachments");
+					PopulateItemArrayFromBundle(out _attachmentsItemArray, "attachments");
 				}
 				return _attachmentsItemArray;
 			}
@@ -63,7 +63,7 @@ namespace EC.Visualization
 			{
 				if (_fixturesItemArray == null)
 				{
-					PopulateItemArrayFromBundle(out _fixturesItemArray, DirectoryUtility.ExternalAssets() + "fixtures");
+					PopulateItemArrayFromBundle(out _fixturesItemArray, "fixtures");
 				}
 				return _fixturesItemArray;
 			}
@@ -76,7 +76,7 @@ namespace EC.Visualization
 			{
 				if (_colorItemArray == null)
 				{
-					PopulateItemArrayFromBundle(out _colorItemArray, DirectoryUtility.ExternalAssets() + "colors");
+					PopulateItemArrayFromBundle(out _colorItemArray, "colors");
 				}
 				return _colorItemArray;
 			}

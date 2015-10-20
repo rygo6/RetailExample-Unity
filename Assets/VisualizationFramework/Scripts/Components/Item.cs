@@ -301,8 +301,10 @@ namespace EC.Visualization
 			yield return new WaitForSeconds(.4f);
 
 			RemoveUniqueTickRecursive(this);
-			Destroy(this.gameObject);
+			Destroy(GetComponent<ItemDrag>().TargetTransform.gameObject);
+			Destroy(gameObject);
 		
+			//TODO use Resources.UnloadAsset and find all assets to do this faster
 			Resources.UnloadUnusedAssets();
 			System.GC.Collect();    
 		}

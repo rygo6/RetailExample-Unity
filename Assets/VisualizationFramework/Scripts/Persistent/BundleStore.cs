@@ -9,27 +9,78 @@ namespace EC
 		[SerializeField]
 		private string _url;
 
+		[SerializeField]
+		private bool _local;
+
+		private string _target;
+
+		private AssetBundleManifest _manifest;
+
 		private readonly List<AssetBundle> AssetBundleList = new List<AssetBundle>();
 
 		private readonly Dictionary<string, WWW> WWWDictionary = new Dictionary<string, WWW>();
 
 		private void Awake()
 		{
+			#if UNITY_EDITOR
+			_target = UnityEditor.EditorUserBuildSettings.activeBuildTarget.ToString();
+			#else
+			_target = Application.platform.ToString();
+			#endif
+
 			if (_currentLevelAssetBundle != null)
 			{
 				_currentLevelAssetBundle.Unload(false);
 				_currentLevelAssetBundle = null;
 			}	
 
-			StartCoroutine(LoadBundleWWW(DirectoryUtility.ExternalAssets() + "merchandise"));
-			StartCoroutine(LoadBundleWWW(DirectoryUtility.ExternalAssets() + "attachments"));
-			StartCoroutine(LoadBundleWWW(DirectoryUtility.ExternalAssets() + "fixtures"));
-			StartCoroutine(LoadBundleWWW(DirectoryUtility.ExternalAssets() + "colors"));
+			if (_local)
+			{
+				_target = "Local";
+				_url = "file://" + DirectoryUtility.AssetBundles() + _target + "/";
+			}
+			else
+			{
+				_url += _target + "/";
+			}
+
+			Debug.Log("AssetBundle URL: " + _url);
+
+			StartCoroutine(LoadManifest());
+
+			StartCoroutine(LoadBundleWWW("merchandise"));
+			StartCoroutine(LoadBundleWWW("attachments"));
+			StartCoroutine(LoadBundleWWW("fixtures"));
+			StartCoroutine(LoadBundleWWW("colors"));
 		}
 	
-		public void OnDestroy()
+		private void OnDestroy()
 		{
 			UnloadAllBundles();
+		}
+
+		private string GetFirstAssetName(AssetBundle bundle)
+		{
+			return bundle.GetAllAssetNames()[0];
+		}
+
+		private IEnumerator LoadManifest()
+		{
+			#if UNITY_EDITOR
+			string target = UnityEditor.EditorUserBuildSettings.activeBuildTarget.ToString();
+			#else
+			string target = Application.platform.ToString();
+			#endif
+			if (_local)
+			{
+				target = "Local";
+			}
+			WWW www = new WWW(_url + target);
+			yield return www;
+			AssetBundle bundle = www.assetBundle;
+			const string manifestName = "assetbundlemanifest";
+			_manifest = bundle.LoadAsset(manifestName) as AssetBundleManifest;
+			www.Dispose();
 		}
 
 		public WWW GetWWW(string name)
@@ -51,35 +102,35 @@ namespace EC
 			return null;
 		}
 
-		public IEnumerator LoadBundleWWW(string path)
+		private IEnumerator LoadBundleWWW(string name)
 		{
-			Debug.Log("Loading Bundle: " + path);
-			string name = System.IO.Path.GetFileNameWithoutExtension(path);
-			AssetBundle assetBundle = GetBundle(name);
+			Debug.Log("Loading Bundle: " + name);
+
+			while (_manifest == null)
+			{
+				yield return null;
+			}
+
 			WWW getWWW;
 			WWWDictionary.TryGetValue(name, out getWWW);
-			if (assetBundle == null && getWWW == null)
+			if (getWWW == null)
 			{
-				WWW www = WWW.LoadFromCacheOrDownload("file://" + path, 0);
+				WWW www = WWW.LoadFromCacheOrDownload(_url + name, _manifest.GetAssetBundleHash(name));
 				WWWDictionary.Add(name, www);
 				yield return www;
 				www.assetBundle.name = name;
 				AssetBundleList.Add(www.assetBundle);
 			}
-			else
-			{
-				yield return null;
-			}
+			yield return null;
 		}
 
-		public AssetBundle LoadBundle(string path)
+		public AssetBundle LoadBundle(string name)
 		{
-			Debug.Log("Loading Bundle: " + path);
-			string name = System.IO.Path.GetFileNameWithoutExtension(path);
+			Debug.Log("Loading Bundle: " + name);
 			AssetBundle assetBundle = GetBundle(name);
 			if (assetBundle == null)
 			{
-				LoadBundleWWW(path);
+				LoadBundleWWW(name);
 				return null;
 			}
 			else
