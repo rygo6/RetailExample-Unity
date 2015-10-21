@@ -41,7 +41,7 @@ namespace EC
 			}
 			else
 			{
-				_url += _target + "/";
+				_url += PlatformToBuildTarget(Application.platform) + "/";
 			}
 
 			Debug.Log("AssetBundle URL: " + _url);
@@ -64,12 +64,24 @@ namespace EC
 			return bundle.GetAllAssetNames()[0];
 		}
 
+		private string PlatformToBuildTarget(RuntimePlatform platform)
+		{
+			switch (platform)
+			{
+			case RuntimePlatform.WebGLPlayer:
+				return "WebGL";
+			default:
+				return "WebGL";
+			}
+			return "";
+		}
+
 		private IEnumerator LoadManifest()
 		{
 			#if UNITY_EDITOR
 			string target = UnityEditor.EditorUserBuildSettings.activeBuildTarget.ToString();
 			#else
-			string target = Application.platform.ToString();
+			string target = PlatformToBuildTarget(Application.platform);
 			#endif
 			if (_local)
 			{
@@ -104,7 +116,7 @@ namespace EC
 
 		private IEnumerator LoadBundleWWW(string name)
 		{
-			Debug.Log("Loading Bundle: " + name);
+//			Debug.Log("Loading Bundle: " + name);
 
 			while (_manifest == null)
 			{
