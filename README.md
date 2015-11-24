@@ -5,7 +5,7 @@ VisualizationFramework is an effort to make an all encompassing package to deal 
 Examples of one-off projects of this nature can be seen on my portfolio here:
 - http://ryangoodrich.info
 
-Currently the framework has implemented in it white-labeled content offering the ability to build a retailing shelving unity in 3D. It is currently in a pre-alha state. A WebGL build of it's current functionality can be seen here:
+Currently the framework has implemented in it white-labeled content offering the ability to build a retai shelving unit in 3D. It is currently in a pre-alha state. A WebGL build of it's current functionality can be seen here:
 - http://8circuit.com.s3-website-us-east-1.amazonaws.com/VisualizationFramework/
 
 A video showing the general functionality and method to use the UI can be seen here:
