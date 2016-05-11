@@ -84,8 +84,8 @@ namespace EC.Visualization
 		}
 		private bool _accessoryRendererState = true;
 	
-		[SerializeField]
-		private Renderer[] _accessoryRendererArray;
+		[SerializeField] Renderer[] _accessoryRendererArray;
+		ItemSettings _itemSettings;
 	
 		public ItemDrop ThisEnteredDropItem
 		{ 
@@ -120,15 +120,14 @@ namespace EC.Visualization
 		}
 		private ItemDrop _thisEnteredDropItem;
 
-		private void Awake()
+		void Awake()
 		{
 			GameObject gameObject = new GameObject(this.name + "Target");
 			TargetTransform = gameObject.GetComponent<Transform>();
 			TargetTransform.position = GetComponent<Item>().transform.position;
 			TargetTransform.forward = GetComponent<Item>().transform.forward;	
-
 			AttachPointArray = GetComponentsInChildren<AttachPoint>();
-
+			_itemSettings = ComponentUtility.FindOnNamedGameObject<ItemSettings>();
 		}
 
 		private void Update()
@@ -175,7 +174,7 @@ namespace EC.Visualization
 	
 		public void FloatObjectInMainCamera(PointerEventData data)
 		{
-			Ray ray = ViewSingleton.Instance.mainView.GetComponent<Camera>().ScreenPointToRay(data.position);
+			Ray ray = Camera.main.ScreenPointToRay(data.position);
 			SetTargetPositionRotation(ray.GetPoint(3.5f), Vector3.forward);			
 		}
 	
@@ -284,13 +283,13 @@ namespace EC.Visualization
 	
 		private void OnBeginDragAttachedHighlighted(PointerEventData data)
 		{
-			GetComponent<Item>().SetShaderOutline(Persistent.Get<ItemSettings>().HighlightItemColor);			
+			GetComponent<Item>().SetShaderOutline(_itemSettings.HighlightItemColor);			
 			SwitchAttachedToDragging(data);	
 		}
 	
 		private void OnBeginDragInstantiate(PointerEventData data)
 		{
-			GetComponent<Item>().SetShaderOutline(Persistent.Get<ItemSettings>().InstantiateOutlineColor);
+			GetComponent<Item>().SetShaderOutline(_itemSettings.InstantiateOutlineColor);
 		}
 	
 		private void OnBeginDragNoInstantiate(PointerEventData data)

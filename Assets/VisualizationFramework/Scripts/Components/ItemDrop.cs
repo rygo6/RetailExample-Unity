@@ -53,9 +53,12 @@ namespace EC.Visualization
 		}
 		private ItemDrag _itemDragEnteredThis;
 
+		ItemSettings _itemSettings;
+
 		private void Awake()
 		{
 			ItemSnapArray = GetComponentsInChildren<ItemSnap>();
+			_itemSettings = ComponentUtility.FindOnNamedGameObject<ItemSettings>();
 		}
 
 		/// <summary>
@@ -208,7 +211,7 @@ namespace EC.Visualization
 				if (item != null && CanAttach(item.TagArray) ||
 				   item != null && ContainsItem(item))
 				{	
-					GetComponent<Item>().SetShaderOutline(Persistent.Get<ItemSettings>().DropOutlineColor);
+					GetComponent<Item>().SetShaderOutline(_itemSettings.DropOutlineColor);
 					ItemDragEnteredThis = item.GetComponent<ItemDrag>();
 					ItemDragEnteredThis.AccessoryRendererState = true;						
 				}

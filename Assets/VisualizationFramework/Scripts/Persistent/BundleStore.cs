@@ -22,6 +22,7 @@ namespace EC
 
 		private void Awake()
 		{
+
 			#if UNITY_EDITOR
 			_target = UnityEditor.EditorUserBuildSettings.activeBuildTarget.ToString();
 			#else
@@ -164,7 +165,7 @@ namespace EC
 		{
 			string path = DirectoryUtility.ExternalAssets() + level + ".assetBundle";
 			Debug.Log("LoadLevelAssetBundle: " + path);
-			_currentLevelAssetBundle = AssetBundle.CreateFromFile(path);
+			_currentLevelAssetBundle = AssetBundle.LoadFromFile(path);
 			if (_currentLevelAssetBundle != null && Application.CanStreamedLevelBeLoaded(level))
 			{
 				UnloadAllBundles();

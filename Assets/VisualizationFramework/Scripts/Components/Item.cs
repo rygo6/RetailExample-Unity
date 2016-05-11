@@ -33,8 +33,6 @@ namespace EC.Visualization
 		}
 		private string _uniqueTick;
     
-		public ItemSettings Settings { get; private set; }
-
 		public ItemRoot Root { get; private set; }
 
 		[SerializeField]
@@ -78,13 +76,14 @@ namespace EC.Visualization
 
 		public ItemState State { get; set; }
 
-		private Catcher _catcher;
+		Catcher _catcher;
+		ItemSettings _itemSettings;
 
 		private void Awake()
 		{
 			//TODO make items be generator through something else and automatically hooked up to this
 			Root = FindObjectOfType<ItemRoot>();
-			Settings = Persistent.Get<ItemSettings>();
+			_itemSettings = ComponentUtility.FindOnNamedGameObject<ItemSettings>();
 
 			MeshRendererArray = this.GetComponentsInChildren<MeshRenderer>();
 
@@ -165,7 +164,7 @@ namespace EC.Visualization
 			Debug.Log( "OnPointerDownAttached " + this.name );
 			#endif
 		
-			SetShaderOutline(Settings.DownHighlightItemColor);
+			SetShaderOutline(_itemSettings.DownHighlightItemColor);
 		}
 	
 		private void OnPointerDownAttachedHighlighted(PointerEventData data)
@@ -175,7 +174,7 @@ namespace EC.Visualization
 			#endif
 		
 			SetLayerRecursive(2);
-			SetShaderOutline(Settings.DownHighlightItemColor);
+			SetShaderOutline(_itemSettings.DownHighlightItemColor);
 		}
     
 		private void OnPointerDownInstantiate(PointerEventData data)
@@ -184,7 +183,7 @@ namespace EC.Visualization
 			Debug.Log( "OnPointerDownAttachedHighlighted " + this.name );
 			#endif
 		
-			SetShaderOutline(Settings.DropOutlineColor);
+			SetShaderOutline(_itemSettings.DropOutlineColor);
 		}
 	
 		public void OnPointerUp(PointerEventData data)
@@ -258,14 +257,14 @@ namespace EC.Visualization
 				Ray ray = itemSnap.Snap(instantiatedItem, data);
 				instantiatedItemDrag.SetTargetPositionRotation(ray.origin, ray.direction); 		
 				//set to outline and normal to get rid of quirk where instantied shader isn't immediately properly lit
-				instantiatedItem.SetShaderOutline(Settings.InstantiateOutlineColor);
+				instantiatedItem.SetShaderOutline(_itemSettings.InstantiateOutlineColor);
 				instantiatedItem.SetShaderNormal();
 				instantiatedItem.State = ItemState.NoInstantiate;
 
 				//TODO this should always be able to attach, why are we checking?
 				if (itemDrop.CanAttach(instantiatedItem.TagArray))
 				{
-					SetShaderOutline(Settings.InstantiateOutlineColor);
+					SetShaderOutline(_itemSettings.InstantiateOutlineColor);
 				}
 				else
 				{
@@ -338,7 +337,7 @@ namespace EC.Visualization
 			};       	
 			_catcher.EmptyClickAction = action;
 		
-			SetShaderOutline(Settings.HighlightItemColor);
+			SetShaderOutline(_itemSettings.HighlightItemColor);
 			State = ItemState.AttachedHighlighted;
 			Root.ItemHighlightList.Add(this);
 		}
@@ -449,14 +448,14 @@ namespace EC.Visualization
 				{
 					BlendMaterialArray[i].shader = Shader.Find("Toon/Vertex Lighted Blend Outline");
 					BlendMaterialArray[i].color = Color.white;
-					BlendMaterialArray[i].SetFloat("_Outline", Settings.OutlineSize);
+					BlendMaterialArray[i].SetFloat("_Outline", _itemSettings.OutlineSize);
 					BlendMaterialArray[i].SetColor("_OutlineColor", color);
 				}
 				for (int i = 0; i < MaterialArray.Length; ++i)
 				{
 					MaterialArray[i].shader = Shader.Find("Toon/Vertex Lighted Blend Outline");
 					MaterialArray[i].color = Color.white;
-					MaterialArray[i].SetFloat("_Outline", Settings.OutlineSize);
+					MaterialArray[i].SetFloat("_Outline", _itemSettings.OutlineSize);
 					MaterialArray[i].SetColor("_OutlineColor", color);
 				}
 			}

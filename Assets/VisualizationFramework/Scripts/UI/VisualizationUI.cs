@@ -83,11 +83,13 @@ namespace EC.Visualization
 		}
 		private ItemReference[] _colorItemArray;
 
+		ItemSettings _itemSettings;
+
 		private void Awake()
 		{
 			Root = FindObjectOfType<ItemRoot>();
-
 			_catcher = GameObject.FindObjectOfType<Catcher>();
+			_itemSettings = ComponentUtility.FindOnNamedGameObject<ItemSettings>();
 		}
 
 		public void UnselectSelectedItem()
@@ -113,7 +115,7 @@ namespace EC.Visualization
 	       	        
 				System.Action<Item> trueAction = delegate(Item item)
 				{
-					item.SetShaderOutline(Persistent.Get<ItemSettings>().InstantiateOutlineColor);
+					item.SetShaderOutline(_itemSettings.InstantiateOutlineColor);
 					item.State = ItemState.Instantiate;
 				};
 				System.Action<Item> falseAction = delegate(Item item)
@@ -182,7 +184,7 @@ namespace EC.Visualization
 		{
 			GameObject prefab = (GameObject)_selectedItem.AssetBundle.LoadAsset(_selectedItem.PrefabName);
 		
-			Ray ray = ViewSingleton.Instance.mainView.GetComponent<Camera>().ScreenPointToRay(data.position);	
+			Ray ray = Camera.main.ScreenPointToRay(data.position);	
 		
 			GameObject instance = (GameObject)Instantiate(prefab);
 		
@@ -260,7 +262,7 @@ namespace EC.Visualization
 		
 		public void PopulateItemArrayFromBundle(out ItemReference[] itemArray, string bundlePath)
 		{
-			AssetBundle assetBundle = Persistent.Get<BundleStore>().LoadBundle(bundlePath);
+			AssetBundle assetBundle = ComponentUtility.FindOnNamedGameObject<BundleStore>().LoadBundle(bundlePath);
 			List<ItemReference> itemList = new List<ItemReference>();
 			string[] assetNames = assetBundle.GetAllAssetNames();
 			for (int i = 0; i < assetNames.Length; ++i)

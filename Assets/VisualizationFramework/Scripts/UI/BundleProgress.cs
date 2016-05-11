@@ -22,7 +22,7 @@ namespace EC
 		{
 			_button.interactable = false;
 			_initialSizeDelta = GetComponent<RectTransform>().sizeDelta;
-			_bundleStore = Persistent.Get<BundleStore>();
+			_bundleStore = ComponentUtility.FindOnNamedGameObject<BundleStore>();
 			StartCoroutine(UpdateProgress());
 		}
 
