@@ -3,9 +3,6 @@
 [System.Serializable]
 public struct Vector2Int
 {
-
-	#region Properties
-
 	public int x { get { return _x; } set { _x = value; } }
 	[SerializeField]
 	private int _x;
@@ -13,20 +10,12 @@ public struct Vector2Int
 	public int y { get { return _y; } set { _y = value; } }
 	[SerializeField]
 	private int _y;
-
-	#endregion
-
-	#region LifeCycle
 	
 	public Vector2Int(int x, int y)
 	{
-		this.x = x;
-		this.y = y;
+		_x = x;
+		_y = y;
 	}
-
-	#endregion
-
-	#region object
 
 	public int Multiplied()
 	{
@@ -52,7 +41,4 @@ public struct Vector2Int
 	{
 		return new Vector2Int(a.x / b, a.y / b);
 	}
-
-	#endregion
-	
 }

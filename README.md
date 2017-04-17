@@ -24,5 +24,3 @@ Immediate Roadmap:
 - More comprehensive orbiting and navigation system.
 - Ability to switch object to other 'partner objects' in order to allow more extensive variations of a product.
 - Complete overhaul of the UI. Current UI is purely functional and placeholder.
-
-This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/.
